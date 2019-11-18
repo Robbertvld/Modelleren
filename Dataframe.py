@@ -36,8 +36,8 @@ def RoosterCrew(dfCrew):
 
     # volgorde veranderen
     kols = dfRooster.columns.tolist()
-    kols_volg = kols[-1:] + kols[:-1]
-    dfRooster = dfRooster[kols_volg]
+    kols = kols[-1:] + kols[:-1]
+    dfRooster = dfRooster[kols]
 
     a = [7] * (len(dfRooster.iloc[1, :]) - 1)
     a.insert(0, 'urenTeGaan')
