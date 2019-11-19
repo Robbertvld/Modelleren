@@ -51,6 +51,10 @@ def AdditionalTasks(containingString='S1'):
     dfSprintAdd.loc[:, 'Crew'] = [20] * len(dfSprintAdd)
     dfSprintAdd['Crew'] = dfSprintAdd['Crew'].astype(object)
 
+    dfSprintAdd['DurationExp.1'] = dfSprintAdd['DurationExp.1'] + 3 * dfSprintAdd['DurationStd.1']
+    dfSprintAdd['DurationExp.2'] = dfSprintAdd['DurationExp.2'] + 3 * dfSprintAdd['DurationStd.2']
+    dfSprintAdd['DurationExp.3'] = dfSprintAdd['DurationExp.3'] + 3 * dfSprintAdd['DurationStd.3']
+
     dfSprintAddprep = pd.DataFrame(dfSprintAdd[dfSprintAdd['Task'].str.contains('prep')]).reset_index(drop=True)
     dfSprintAddpost = pd.DataFrame(dfSprintAdd[dfSprintAdd['Task'].str.contains('post')]).reset_index(drop=True)
 
