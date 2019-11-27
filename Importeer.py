@@ -71,6 +71,7 @@ def Crew():
     dfCrew = pd.read_excel('MODPRdataset.xlsx', sheet_name='Crew')
     dfCrew = dfCrew.fillna(0)
     dfCrew.replace("x", 1, inplace=True)
+    dfCrew['Uren'] = dfCrew.iloc[:, 14:19].sum(axis=1) * 70
     return dfCrew
 
 

@@ -110,7 +110,7 @@ def MakeCrewCombined(dfCrew):
     dfCrewCombined['sum'] = dfCrewCombined.iloc[:, 0:13].sum(axis=1)
 
     # sorteren op de kolommen sum en surplus (overschot aan skills) zodat er zo min mogelijk overbodige skills worden gebruikt
-    dfCrewCombined = dfCrewCombined.sort_values(['sum', 'Surplus'], ascending=[True, True])
+    dfCrewCombined = dfCrewCombined.sort_values(['Aantalpersonen', 'sum', 'Surplus'], ascending=[True, True, True])
     dfCrewCombined = dfCrewCombined.reset_index(drop=True)
 
     dfCrewCombined.to_csv('CrewCombined.csv', encoding='utf-8', index=False)  # schrijven naar csv

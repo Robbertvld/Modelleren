@@ -108,7 +108,7 @@ ZoekOpdrachten(dfSprint1.iloc[0,rangeSkills], MinMaxPersonen= [1,2], dfCrewCombi
 def ZoekOpdrachten(project, MinMaxPersonen, dfCrewCombined):
     crew = []
     for i in range(0, len(dfCrewCombined)):
-        if (dfCrewCombined.Aantalpersonen[i] >= MinMaxPersonen[0] and dfCrewCombined.Aantalpersonen[i] <= MinMaxPersonen[1]):
+        if (dfCrewCombined.Aantalpersonen[i] == MinMaxPersonen[0]):  # and dfCrewCombined.Aantalpersonen[i] <= MinMaxPersonen[0]):
             if (OpdrachtUitvoerenPersoonBool(project, dfCrewCombined.iloc[i, 0:13])):
                 crew.append(list(dfCrewCombined.iloc[i, 14:20]))
     return crew
