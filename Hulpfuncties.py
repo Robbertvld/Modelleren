@@ -108,7 +108,7 @@ ZoekOpdrachten(dfSprint1.iloc[0,rangeSkills], MinMaxPersonen= [1,2], dfCrewCombi
 def ZoekOpdrachten(project, MinMaxPersonen, dfCrewCombined):
     crew = []
     for i in range(0, len(dfCrewCombined)):
-        if (dfCrewCombined.Aantalpersonen[i] == MinMaxPersonen[0]):  # and dfCrewCombined.Aantalpersonen[i] <= MinMaxPersonen[0]):
+        if (dfCrewCombined.Aantalpersonen[i] >= MinMaxPersonen[0] and dfCrewCombined.Aantalpersonen[i] <= MinMaxPersonen[0]):
             if (OpdrachtUitvoerenPersoonBool(project, dfCrewCombined.iloc[i, 0:13])):
                 crew.append(list(dfCrewCombined.iloc[i, 14:20]))
     return crew
@@ -145,7 +145,7 @@ zo gaat deze de hele lijst door en geeft deze het resultaat terug.
 
 def CombinatieLijst(lijst1, lijst2):
     lijstfinal = []
-    if ((len(lijst1) == 16) & (len(lijst2) == 16)):
+    if (len(lijst1) == len(lijst2)):
         for i in range(0, len(lijst1)):
             if((lijst1[i] == 0) & (lijst2[i] == 0)):
                 lijstfinal.append(0)
