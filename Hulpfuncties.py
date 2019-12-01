@@ -13,6 +13,7 @@ OpdrachtUitvoeren(dfProjectTasks.iloc[0,rangeSkills],dfCrew.iloc[0,rangeSkills])
 uitkomst: False
 """
 import pandas as pd
+import pickle
 
 
 def OpdrachtUitvoerenPersoonBool(eisen, persoon):
@@ -178,6 +179,7 @@ Het sommeren van de overige uren van de crewleden, in een dataframe
 def somOverigeUren(crewlijst, weeknummers, dfKalenderCrew):
 
     resultaat = pd.DataFrame(columns=['crew', 'som'])
+    crewlijst = list(filter(lambda a: a <= 12, crewlijst))
     for i in crewlijst:
         som = 0
         if (i == 20):
@@ -189,3 +191,44 @@ def somOverigeUren(crewlijst, weeknummers, dfKalenderCrew):
     if(type(resultaat) == 'NoneType'):
         Exception("Nonetype")
     return resultaat.sort_values(['som'], ascending=[False])
+
+
+def CheckCrewUren(crewlijst, dfCrew, duration):
+    """
+    Kijkt naar het aantal uren totaal te gaan. Hierin wordt gekeken
+    of een opdracht kan worden ingepland terwijl er bijvoorbeeld nog uren moeten
+    overblijven voor crewDirecter of PR of zo
+    """
+    tempCrew = pickle.loads(pickle.dumps(dfCrew))
+    for crew in crewlijst:
+        if crew == 20:
+            return [True, dfCrew]
+        elif (dfCrew['Uren'].iloc[crew] >= duration):
+            dfCrew['Uren'].iloc[crew] -= duration
+        else:
+            return [False, tempCrew]
+    return [True, dfCrew]
+
+
+def past_task_begin_dag(lst, duration, default=False):
+    """
+    Kijkt of een opdracht aan het begin van een dag kan. de duration is in halve uren.
+
+    voorbeeld:
+    index_of_first_nonzero([0,0,0,1,1,1,0],3) >> True
+    """
+    for i, value in enumerate(lst):
+        if value != 0:
+            return i >= duration
+    return True if (sum(lst) == 0) else default
+
+
+def get_last_non_zero_index(d, default=16):
+    """
+    geeft de index terug van het laatste getal dat geen nul is in een lijst.
+
+    voorbeeld:
+    get_last_non_zero_index([0,0,0,1,1,1,0]) >> 5
+    """
+    rev = (len(d) - idx for idx, item in enumerate(reversed(d), 1) if item)
+    return next(rev, default)

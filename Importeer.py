@@ -35,7 +35,7 @@ def dfSprint(containingString='S1'):
 
 
 """
-importeert de additional tasks van een excel bestand en returnt twee verschillende bestanden (csv),
+importeert de additional tasks van een excel bestand en returnt twee verschillende dataframes,
 een voor prep en een voor post
 """
 
@@ -59,6 +59,23 @@ def AdditionalTasks(containingString='S1'):
     dfSprintAddpost = pd.DataFrame(dfSprintAdd[dfSprintAdd['Task'].str.contains('post')]).reset_index(drop=True)
 
     return [dfSprintAddprep, dfSprintAddpost]
+
+
+def SprintAdditional(containingString='S1'):
+    """
+    importeren van het dataframe voor de add tasks, niet de prep en post.
+    """
+    dfAdditionalTasks = pd.read_excel('MODPRdataset.xlsx', sheet_name='Additional tasks')
+    dfAdditionalTasks = dfAdditionalTasks.fillna(0)
+    dfAdditionalTasks.replace("x", 1, inplace=True)
+    dfAdditionalTasks = dfAdditionalTasks[dfAdditionalTasks['Task'] != 0].reset_index(drop=True)
+    dfAdditionalTasks['aantal keer'].replace(0, 1, inplace=True)
+    dfSprintAdd = pd.DataFrame((dfAdditionalTasks.loc[~dfAdditionalTasks['Task'].str.contains(containingString)])).reset_index(drop=True)
+    dfSprintAdd = pd.DataFrame((dfSprintAdd[dfSprintAdd['Sprint'] == 1])).reset_index(drop=True)
+    dfSprintAdd['Voltooid'] = False
+    dfSprintAdd.loc[:, 'Crew'] = [20] * len(dfSprintAdd)
+    dfSprintAdd['Crew'] = dfSprintAdd['Crew'].astype(object)
+    return dfSprintAdd
 
 
 """
