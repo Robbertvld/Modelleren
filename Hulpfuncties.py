@@ -197,7 +197,8 @@ def CheckCrewUren(crewlijst, dfCrew, duration):
     """
     Kijkt naar het aantal uren totaal te gaan. Hierin wordt gekeken
     of een opdracht kan worden ingepland terwijl er bijvoorbeeld nog uren moeten
-    overblijven voor crewDirecter of PR of zo
+    overblijven voor crewDirecter of PR of zo, als dit kan, dan wordt het meteen aangepast.
+    anders wordt het origineel meegegeven.
     """
     tempCrew = pickle.loads(pickle.dumps(dfCrew))
     for crew in crewlijst:
@@ -232,3 +233,19 @@ def get_last_non_zero_index(d, default=16):
     """
     rev = (len(d) - idx for idx, item in enumerate(reversed(d), 1) if item)
     return next(rev, default)
+
+
+def extraCheckUrenMorgen(dagIndexKopie, crewlijst, dfKalenderCrew):
+    ```
+    Extra check voor de uren voor de voor de volgende dag. zou moeten werken als uren overmogen, maar dit fixt de bug.
+    het kijkt naar de uren die over zijn van de eerste dag en de dag erna. mochten een van deze nul zijn,
+    dan wordt False teruggegeven
+    ```
+    tempGelukt = True
+    for i in crewlijst:
+        if i == 20:
+            break
+        if not ((dfKalenderCrew.iloc[dagIndexKopie,:].DagRooster.dfRooster.iloc[0,i+1] >0) & (dfKalenderCrew.iloc[dagIndexKopie+1,:].DagRooster.dfRooster.iloc[0,i+1] >0)):
+            tempGelukt= False
+
+    return tempGelukt
