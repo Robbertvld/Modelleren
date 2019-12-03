@@ -76,6 +76,8 @@ def SprintAdditional(containingString='S1'):
     dfSprintAdd['Voltooid'] = False
     dfSprintAdd.loc[:, 'Crew'] = [20] * len(dfSprintAdd)
     dfSprintAdd['Crew'] = dfSprintAdd['Crew'].astype(object)
+    dfSprintAdd['DurationExp.1'] = dfSprintAdd['DurationExp.1'] + 0.5 * np.ceil(2.33 * 2 * dfSprintAdd['DurationStd.1'])
+
     return dfSprintAdd
 
 
