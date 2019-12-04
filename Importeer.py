@@ -25,6 +25,8 @@ def dfSprint(containingString='S1'):
     dfSprint['AantalMogelijkheden'] = dfSprint['AantalMogelijkheden'].astype(int)
 
     dfSprint['MaxReqCrew'].replace(0, 6, inplace=True)
+    dfSprint['Counter'] = 0
+    dfSprint.at[dfSprint.Task.str.contains("A"), "Counter"] = 1
 
     dfSprint['Voltooid'] = False
     dfSprint['Eis'] = ""
