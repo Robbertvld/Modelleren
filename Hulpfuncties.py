@@ -109,7 +109,7 @@ ZoekOpdrachten(dfSprint1.iloc[0,rangeSkills], MinMaxPersonen= [1,2], dfCrewCombi
 def ZoekOpdrachten(project, MinMaxPersonen, dfCrewCombined):
     crew = []
     for i in range(0, len(dfCrewCombined)):
-        if (dfCrewCombined.Aantalpersonen[i] >= MinMaxPersonen[0] and dfCrewCombined.Aantalpersonen[i] <= MinMaxPersonen[0]):
+        if (dfCrewCombined.Aantalpersonen[i] >= MinMaxPersonen[0] and dfCrewCombined.Aantalpersonen[i] <= MinMaxPersonen[0] + 1):
             if (OpdrachtUitvoerenPersoonBool(project, dfCrewCombined.iloc[i, 0:13])):
                 crew.append(list(dfCrewCombined.iloc[i, 14:20]))
     return crew
@@ -177,7 +177,9 @@ Het sommeren van de overige uren van de crewleden, in een dataframe
 
 
 def somOverigeUren(crewlijst, weeknummers, dfKalenderCrew):
-
+    print(crewlijst)
+    if type(crewlijst) == int:
+        crewlijst = [crewlijst]
     resultaat = pd.DataFrame(columns=['crew', 'som'])
     crewlijst = list(filter(lambda a: a <= 12, crewlijst))
     for i in crewlijst:
@@ -245,7 +247,7 @@ def extraCheckUrenMorgen(dagIndexKopie, crewlijst, dfKalenderCrew):
     for i in crewlijst:
         if i == 20:
             break
-        if not ((dfKalenderCrew.iloc[dagIndexKopie,:].DagRooster.dfRooster.iloc[0,i+1] >0) & (dfKalenderCrew.iloc[dagIndexKopie+1,:].DagRooster.dfRooster.iloc[0,i+1] >0)):
-            tempGelukt= False
+        if not ((dfKalenderCrew.iloc[dagIndexKopie, :].DagRooster.dfRooster.iloc[0, i + 1] > 0) & (dfKalenderCrew.iloc[dagIndexKopie + 1, :].DagRooster.dfRooster.iloc[0, i + 1] > 0)):
+            tempGelukt = False
 
     return tempGelukt

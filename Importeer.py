@@ -74,7 +74,7 @@ def SprintAdditional(containingString='S1'):
     dfAdditionalTasks = dfAdditionalTasks[dfAdditionalTasks['Task'] != 0].reset_index(drop=True)
     dfAdditionalTasks['aantal keer'].replace(0, 1, inplace=True)
     dfSprintAdd = pd.DataFrame((dfAdditionalTasks.loc[~dfAdditionalTasks['Task'].str.contains(containingString)])).reset_index(drop=True)
-    dfSprintAdd = pd.DataFrame((dfSprintAdd[dfSprintAdd['Sprint'] == 1])).reset_index(drop=True)
+    dfSprintAdd = pd.DataFrame((dfSprintAdd[dfSprintAdd['Sprint'] == int(containingString[1])])).reset_index(drop=True)
     dfSprintAdd['Voltooid'] = False
     dfSprintAdd.loc[:, 'Crew'] = [20] * len(dfSprintAdd)
     dfSprintAdd['Crew'] = dfSprintAdd['Crew'].astype(object)
